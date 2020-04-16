@@ -23,7 +23,10 @@ st.markdown(
 
 # sidemenu
 st.sidebar.markdown(
-    "### 2019 Draft: Pick-By-Pick Bonuses"
+    "### MLB Draft: Pick-By-Pick Bonuses"
+)
+year = st.sidebar.selectbox(
+    "Year", df["Year"].sort_values().unique()
 )
 team = st.sidebar.selectbox(
     "Team", df["TeamNm"].sort_values().unique()
@@ -34,9 +37,10 @@ template = st.sidebar.selectbox(
 
 # body
 st.markdown(
-    "# {}".format(team)
+    "# {year}/{team}".format(year=year, team=team)
 )
-tdf = df[df["TeamNm"] == team]
+ydf = df[df["Year"] == year]
+tdf = ydf[ydf["TeamNm"] == team]
 graph = px.line(
     tdf, x='Pick', y='BonusAmount', color='BonusType',
     template=template, hover_name='FullNm', height=500, width=800,
